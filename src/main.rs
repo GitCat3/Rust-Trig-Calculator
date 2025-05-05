@@ -11,7 +11,6 @@ fn calc_sin(x: f64) -> f64 {
         n += 2;
         term *= -x * x / ((n - 1) as f64 * n as f64);
     }
-
     sum
 }
 
@@ -55,6 +54,11 @@ fn main() {
     else {
         inputabs = calc_sin(inputabs);
     }
-    println!("{}", inputabs);
-    println!("{}", (3.0*PI).sin());
+    if input.is_sign_negative() {
+        inputabs = -inputabs;
+    }
+    if inputabs == -0.0 {
+        inputabs = 0.0;
+    }
+    println!("{:.5}", inputabs);
 }

@@ -2,8 +2,3 @@
 name = "pithingy2electricboogaloo"
 version = "0.1.0"
 edition = "2021"
-
-[dependencies]
-factorial = "0.4.0"
-num-bigfloat = "1.7.2"
-num-bigint = "0.4.6"
