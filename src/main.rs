@@ -14,7 +14,6 @@ fn calc_sin(x: f64) -> f64 {
     sum
 }
 
-
 fn parse_pi_expression(expr: &str) -> Option<f64> {
     let expr = expr.replace(" ", "").replace("π", "pi");
     let (numerator, denominator) = if let Some((num, denom)) = expr.split_once('/') {
@@ -35,20 +34,15 @@ fn parse_pi_expression(expr: &str) -> Option<f64> {
     Some(coeff * std::f64::consts::PI / denom)
 }
 
-fn main() {
-    let mut input = String::new();
-    println!("Enter value to sin:");
-    io::stdin().read_line(&mut input).expect("Failed to read line");
-    let input: f64 = parse_pi_expression(input.trim_end()).unwrap();
+fn use_funi_trig(input: f64) -> f64{
     let mut inputabs = input.abs();
-
     while inputabs>(3.0*PI)/2.0 {
         inputabs -= PI;
     }
     if inputabs<=(3.0*PI)/2.0 && inputabs>=PI {
         inputabs = -calc_sin(inputabs-PI);
     }
-    else if inputabs>=PI/2.0 && inputabs<=PI {
+    else if input>=PI/2.0 && input<=PI {
         inputabs = calc_sin(PI-inputabs);
     }
     else {
@@ -60,5 +54,19 @@ fn main() {
     if inputabs == -0.0 {
         inputabs = 0.0;
     }
-    println!("{:.5}", inputabs);
+    return inputabs;
+}
+
+fn main() {
+    let mut input = String::new();
+    println!("Enter value to sin:");
+    io::stdin().read_line(&mut input).expect("Failed to read line");
+    let input: f64 = parse_pi_expression(input.trim_end()).unwrap();
+    let mut output = use_funi_trig(input);
+    println!("{:.5}", output);
+    //<debug>
+    println!("{}", (PI/2.0)-3.0*PI);
+    //</debug>
+    output = use_funi_trig((PI/2.0)-3.0*PI);
+    println!("{:.5}", output);
 }
