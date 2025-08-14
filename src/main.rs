@@ -35,26 +35,22 @@ fn parse_pi_expression(expr: &str) -> Option<f64> {
 }
 
 fn use_funi_trig(input: f64) -> f64{
-    let mut inputabs = input.abs();
-    while inputabs>(3.0*PI)/2.0 {
-        inputabs -= PI;
+    let mut angle = input.rem_euclid(2.0 * PI);
+    if angle > PI {
+        angle -= 2.0 * PI;
     }
-    if inputabs<=(3.0*PI)/2.0 && inputabs>=PI {
-        inputabs = -calc_sin(inputabs-PI);
+    else if angle < -PI {
+        angle += 2.0 * PI;
     }
-    else if input>=PI/2.0 && input<=PI {
-        inputabs = calc_sin(PI-inputabs);
+    if angle > PI/2.0 {
+        calc_sin(PI-angle)
+    }
+    else if angle < -PI/2.0 {
+        -calc_sin(-PI - angle)
     }
     else {
-        inputabs = calc_sin(inputabs);
+        calc_sin(angle)
     }
-    if input.is_sign_negative() {
-        inputabs = -inputabs;
-    }
-    if inputabs == -0.0 {
-        inputabs = 0.0;
-    }
-    return inputabs;
 }
 
 fn main() {
@@ -62,11 +58,8 @@ fn main() {
     println!("Enter value to sin:");
     io::stdin().read_line(&mut input).expect("Failed to read line");
     let input: f64 = parse_pi_expression(input.trim_end()).unwrap();
-    let mut output = use_funi_trig(input);
+    let output = use_funi_trig(input);
+    let outputcos = use_funi_trig(input + (PI/2.0));
     println!("{:.5}", output);
-    //<debug>
-    println!("{}", (PI/2.0)-3.0*PI);
-    //</debug>
-    output = use_funi_trig((PI/2.0)-3.0*PI);
-    println!("{:.5}", output);
+    println!("{:.5}", outputcos)
 }
