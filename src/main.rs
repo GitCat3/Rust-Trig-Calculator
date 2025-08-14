@@ -66,5 +66,5 @@ fn main() {
     println!("tan: {:.5}", outputtan);
     println!("cosec: {:.5}", if outputsin == 0.0 {NAN} else {1.0/outputsin});
     println!("sec: {:.5}", if outputcos == 0.0 {NAN} else {1.0/outputcos});
-    println!("cotan: {:.5}", if outputtan == 0.0 {NAN} else {1.0/outputtan});
+    println!("cotan: {:.5}", if outputsin == 0.0 {NAN} else {outputcos/outputsin});
 }
