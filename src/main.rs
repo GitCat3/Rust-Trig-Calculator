@@ -1,4 +1,4 @@
-use std::{f64::consts::PI, io};
+use std::{f64::{consts::PI, NAN}, io};
 
 fn calc_sin(x: f64) -> f64 {
     let terms = 30;
@@ -55,11 +55,16 @@ fn use_funi_trig(input: f64) -> f64{
 
 fn main() {
     let mut input = String::new();
-    println!("Enter value to sin:");
+    println!("Enter value to calculate:");
     io::stdin().read_line(&mut input).expect("Failed to read line");
     let input: f64 = parse_pi_expression(input.trim_end()).unwrap();
-    let output = use_funi_trig(input);
+    let outputsin = use_funi_trig(input);
     let outputcos = use_funi_trig(input + (PI/2.0));
-    println!("{:.5}", output);
-    println!("{:.5}", outputcos)
+    let outputtan = if outputcos == 0.0 { NAN } else { outputsin / outputcos };
+    println!("sin: {:.5}", outputsin);
+    println!("cosine: {:.5}", outputcos);
+    println!("tan: {:.5}", outputtan);
+    println!("cosec: {:.5}", if outputsin == 0.0 {NAN} else {1.0/outputsin});
+    println!("sec: {:.5}", if outputcos == 0.0 {NAN} else {1.0/outputcos});
+    println!("cotan: {:.5}", if outputtan == 0.0 {NAN} else {1.0/outputtan});
 }
